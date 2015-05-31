@@ -1,0 +1,14 @@
+[Unit]
+Description=MySQL Docker Container
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill mysql
+ExecStartPre=-/usr/bin/docker rm mysql
+ExecStartPre=/usr/bin/docker pull mysql
+ExecStart=/usr/bin/docker run --name mysql -e MYSQL_ROOT_PASSWORD={{ mysql_password }} mysql
+
+[Install]
+WantedBy=multi-user.target
